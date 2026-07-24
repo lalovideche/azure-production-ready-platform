@@ -1,8 +1,31 @@
+# Terraform working directory
 .terraform/
+
+# Terraform state
 *.tfstate
 *.tfstate.*
+
+# Saved Terraform plans
 *.tfplan
+
+# Real variable values
 terraform.tfvars
 *.auto.tfvars
+
+# Real backend configuration
+backend.*.hcl
+!backend.*.hcl.example
+
+# Environment files and credentials
+.env
+.env.*
+*.pem
+*.key
+
+# Crash logs
 crash.log
 crash.*.log
+
+# Python generated files
+__pycache__/
+*.pyc

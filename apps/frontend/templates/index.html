@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Production-Ready Platform</title>
+</head>
+<body>
+    <h1>Azure Production-Ready Platform</h1>
+
+    <p>
+        Public frontend, private backend, private Storage,
+        private Key Vault and Managed Identity.
+    </p>
+
+    <label for="message">Message</label>
+    <input id="message" type="text">
+    <button onclick="saveMessage()">Save message</button>
+
+    <button onclick="loadMessages()">Load messages</button>
+
+    <pre id="output"></pre>
+
+    <script>
+        const output = document.getElementById("output");
+
+        async function saveMessage() {
+            const message = document.getElementById("message").value;
+
+            const response = await fetch("/api/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message })
+            });
+
+            output.textContent = JSON.stringify(
+                await response.json(),
+                null,
+                2
+            );
+        }
+
+        async function loadMessages() {
+            const response = await fetch("/api/messages");
+
+            output.textContent = JSON.stringify(
+                await response.json(),
+                null,
+                2
+            );
+        }
+    </script>
+</body>
+</html>
