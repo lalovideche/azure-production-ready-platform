@@ -1,0 +1,115 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    name: Build containers and deploy Azure infrastructure
+    runs-on: ubuntu-latest
+
+    # Este nombre debe coincidir con el GitHub Environment
+    # y con la Federated Credential que creamos en Azure.
+    environment: production
+
+    steps:
+      # Descarga el contenido de tu repositorio en el runner.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Inicia sesión en Azure usando OIDC.
+      # No utiliza contraseña ni client secret.
+      - name: Azure login using OIDC
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Autentica Docker contra Azure Container Registry.
+      - name: Sign in to Azure Container Registry
+        run: az acr login --name "${{ vars.ACR_NAME }}"
+
+      # Este comando debe ejecutarse donde está
+      # apps/frontend/Dockerfile.
+      - name: Build frontend image
+        working-directory: apps/frontend
+        run: |
+          docker build \
+            --tag "${{ vars.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}" \
+            .
+
+      # Este comando debe ejecutarse donde está
+      # apps/backend/Dockerfile.
+      - name: Build backend image
+        working-directory: apps/backend
+        run: |
+          docker build \
+            --tag "${{ vars.ACR_LOGIN_SERVER }}/backend:${{ github.sha }}" \
+            .
+
+      # Las imágenes ya fueron construidas.
+      # Ahora se suben a ACR.
+      - name: Push frontend image
+        run: |
+          docker push \
+            "${{ vars.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}"
+
+      - name: Push backend image
+        run: |
+          docker push \
+            "${{ vars.ACR_LOGIN_SERVER }}/backend:${{ github.sha }}"
+
+      # Instala Terraform dentro del runner de GitHub.
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.15.8"
+
+      # Desde aquí, todos los comandos indican explícitamente
+      # la carpeta que contiene los archivos .tf.
+      - name: Check Terraform formatting
+        working-directory: infra/environments/dev
+        run: terraform fmt -check -recursive
+
+      - name: Initialize Terraform
+        working-directory: infra/environments/dev
+        env:
+          ARM_USE_AZUREAD: "true"
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=${{ vars.TFSTATE_RESOURCE_GROUP }}" \
+            -backend-config="storage_account_name=${{ vars.TFSTATE_STORAGE_ACCOUNT }}" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=azrp/dev/terraform.tfstate" \
+            -backend-config="use_azuread_auth=true"
+
+      - name: Validate Terraform
+        working-directory: infra/environments/dev
+        run: terraform validate
+
+      # Terraform recibe como tag el identificador único del commit.
+      # Así cada deployment utiliza imágenes versionadas.
+      - name: Create Terraform plan
+        working-directory: infra/environments/dev
+        env:
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_name_suffix: ${{ vars.NAME_SUFFIX }}
+          TF_VAR_alert_email: ${{ vars.ALERT_EMAIL }}
+          TF_VAR_frontend_image_tag: ${{ github.sha }}
+          TF_VAR_backend_image_tag: ${{ github.sha }}
+        run: |
+          terraform plan \
+            -input=false \
+            -out=deploy.tfplan
+
+      # Aplica exactamente el plan creado en el paso anterior.
+      - name: Apply Terraform plan
+        working-directory: infra/environments/dev
+        run: terraform apply -input=false deploy.tfplan
