@@ -17,7 +17,7 @@ resource "azurerm_linux_web_app" "frontend" {
 
   https_only                    = true
   public_network_access_enabled = true
-  virtual_network_subnet_id     = azurerm_subnet.appsvc_integration.id
+  virtual_network_subnet_id     = module.network.appsvc_integration_subnet_id
 
   identity {
     type         = "UserAssigned"
@@ -57,7 +57,7 @@ resource "azurerm_linux_web_app" "backend" {
 
   https_only                    = true
   public_network_access_enabled = false
-  virtual_network_subnet_id     = azurerm_subnet.appsvc_integration.id
+  virtual_network_subnet_id     = module.network.appsvc_integration_subnet_id
 
   identity {
     type         = "UserAssigned"
