@@ -1,13 +1,9 @@
-resource "azurerm_user_assigned_identity" "frontend" {
-  name                = "id-front-${local.prefix}-${var.name_suffix}"
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+module "identities" {
+  source = "../../modules/identities"
 
-  tags = local.common_tags
-}
+  frontend_name = "id-front-${local.prefix}-${var.name_suffix}"
+  backend_name  = "id-back-${local.prefix}-${var.name_suffix}"
 
-resource "azurerm_user_assigned_identity" "backend" {
-  name                = "id-back-${local.prefix}-${var.name_suffix}"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
 

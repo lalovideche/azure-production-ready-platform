@@ -21,7 +21,7 @@ resource "azurerm_linux_web_app" "frontend" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.frontend.id]
+    identity_ids = [module.identities.frontend_id]
   }
 
   site_config {
@@ -30,7 +30,7 @@ resource "azurerm_linux_web_app" "frontend" {
     vnet_route_all_enabled = true
 
     container_registry_use_managed_identity       = true
-    container_registry_managed_identity_client_id = azurerm_user_assigned_identity.frontend.client_id
+    container_registry_managed_identity_client_id = module.identities.frontend_client_id
 
     application_stack {
       docker_image_name   = "frontend:${var.frontend_image_tag}"
@@ -61,14 +61,14 @@ resource "azurerm_linux_web_app" "backend" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.backend.id]
+    identity_ids = [module.identities.backend_id]
   }
 
   site_config {
     always_on                                     = true
     minimum_tls_version                           = "1.2"
     container_registry_use_managed_identity       = true
-    container_registry_managed_identity_client_id = azurerm_user_assigned_identity.backend.client_id
+    container_registry_managed_identity_client_id = module.identities.backend_client_id
     vnet_route_all_enabled                        = true
 
     application_stack {
@@ -78,7 +78,7 @@ resource "azurerm_linux_web_app" "backend" {
   }
 
   app_settings = {
-    AZURE_CLIENT_ID      = azurerm_user_assigned_identity.backend.client_id
+    AZURE_CLIENT_ID      = module.identities.backend_client_id
     STORAGE_ACCOUNT_NAME = module.storage.storage_account_name
     BLOB_CONTAINER_NAME  = module.storage.container_name
     KEY_VAULT_URL        = module.key_vault.vault_uri

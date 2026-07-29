@@ -49,3 +49,12 @@ moved {
   from = azurerm_key_vault.main
   to   = module.key_vault.azurerm_key_vault.main
 }
+moved {
+  from = azurerm_user_assigned_identity.frontend
+  to   = module.identities.azurerm_user_assigned_identity.frontend
+}
+
+moved {
+  from = azurerm_user_assigned_identity.backend
+  to   = module.identities.azurerm_user_assigned_identity.backend
+}
