@@ -23,7 +23,7 @@ resource "azurerm_application_insights" "main" {
 
 resource "azurerm_monitor_diagnostic_setting" "frontend" {
   name                       = "diag-frontend"
-  target_resource_id         = azurerm_linux_web_app.frontend.id
+  target_resource_id         = module.application.frontend_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
   log_analytics_destination_type = "Dedicated"
@@ -48,7 +48,7 @@ resource "azurerm_monitor_diagnostic_setting" "frontend" {
 
 resource "azurerm_monitor_diagnostic_setting" "backend" {
   name                       = "diag-backend"
-  target_resource_id         = azurerm_linux_web_app.backend.id
+  target_resource_id         = module.application.backend_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
   log_analytics_destination_type = "Dedicated"

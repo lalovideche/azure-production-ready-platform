@@ -15,20 +15,20 @@ output "acr_login_server" {
 
 output "frontend_name" {
   description = "Name of the frontend Azure Web App."
-  value       = azurerm_linux_web_app.frontend.name
+  value       = module.application.frontend_name
 }
 
 output "backend_name" {
   description = "Name of the backend Azure Web App."
-  value       = azurerm_linux_web_app.backend.name
+  value       = module.application.backend_name
 }
 
 output "frontend_hostname" {
   description = "Default hostname of the frontend Azure Web App."
-  value       = azurerm_linux_web_app.frontend.default_hostname
+  value       = module.application.frontend_hostname
 }
 
 output "backend_hostname" {
   description = "Default hostname of the backend Azure Web App."
-  value       = azurerm_linux_web_app.backend.default_hostname
+  value       = module.application.backend_hostname
 }

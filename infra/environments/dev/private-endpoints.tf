@@ -42,7 +42,7 @@ resource "azurerm_private_endpoint" "backend" {
 
   private_service_connection {
     name                           = "psc-backend"
-    private_connection_resource_id = azurerm_linux_web_app.backend.id
+    private_connection_resource_id = module.application.backend_id
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }

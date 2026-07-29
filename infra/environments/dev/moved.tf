@@ -58,3 +58,17 @@ moved {
   from = azurerm_user_assigned_identity.backend
   to   = module.identities.azurerm_user_assigned_identity.backend
 }
+moved {
+  from = azurerm_service_plan.main
+  to   = module.application.azurerm_service_plan.main
+}
+
+moved {
+  from = azurerm_linux_web_app.frontend
+  to   = module.application.azurerm_linux_web_app.frontend
+}
+
+moved {
+  from = azurerm_linux_web_app.backend
+  to   = module.application.azurerm_linux_web_app.backend
+}
