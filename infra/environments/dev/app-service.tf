@@ -34,7 +34,7 @@ resource "azurerm_linux_web_app" "frontend" {
 
     application_stack {
       docker_image_name   = "frontend:${var.frontend_image_tag}"
-      docker_registry_url = "https://${azurerm_container_registry.main.login_server}"
+      docker_registry_url = "https://${module.registry.login_server}"
     }
   }
 
@@ -73,7 +73,7 @@ resource "azurerm_linux_web_app" "backend" {
 
     application_stack {
       docker_image_name   = "backend:${var.backend_image_tag}"
-      docker_registry_url = "https://${azurerm_container_registry.main.login_server}"
+      docker_registry_url = "https://${module.registry.login_server}"
     }
   }
 

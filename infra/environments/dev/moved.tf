@@ -32,3 +32,7 @@ moved {
   from = azurerm_subnet_network_security_group_association.private_endpoints
   to   = module.network.azurerm_subnet_network_security_group_association.private_endpoints
 }
+moved {
+  from = azurerm_container_registry.main
+  to   = module.registry.azurerm_container_registry.main
+}

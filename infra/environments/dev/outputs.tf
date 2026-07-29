@@ -5,12 +5,12 @@ output "resource_group_name" {
 
 output "acr_name" {
   description = "Name of the Azure Container Registry."
-  value       = azurerm_container_registry.main.name
+  value       = module.registry.name
 }
 
 output "acr_login_server" {
   description = "Login server of the Azure Container Registry."
-  value       = azurerm_container_registry.main.login_server
+  value       = module.registry.login_server
 }
 
 output "frontend_name" {
