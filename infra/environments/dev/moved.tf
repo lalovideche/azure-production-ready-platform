@@ -36,3 +36,12 @@ moved {
   from = azurerm_container_registry.main
   to   = module.registry.azurerm_container_registry.main
 }
+moved {
+  from = azurerm_storage_account.main
+  to   = module.storage.azurerm_storage_account.main
+}
+
+moved {
+  from = azurerm_storage_container.messages
+  to   = module.storage.azurerm_storage_container.messages
+}

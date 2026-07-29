@@ -11,7 +11,7 @@ resource "azurerm_role_assignment" "backend_acr_pull" {
 }
 
 resource "azurerm_role_assignment" "backend_blob_data" {
-  scope                = azurerm_storage_account.main.id
+  scope                = module.storage.storage_account_id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_user_assigned_identity.backend.principal_id
 }

@@ -63,7 +63,7 @@ resource "azurerm_private_endpoint" "blob" {
 
   private_service_connection {
     name                           = "psc-blob"
-    private_connection_resource_id = azurerm_storage_account.main.id
+    private_connection_resource_id = module.storage.storage_account_id
     subresource_names              = ["blob"]
     is_manual_connection           = false
   }
