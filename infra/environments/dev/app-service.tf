@@ -81,7 +81,7 @@ resource "azurerm_linux_web_app" "backend" {
     AZURE_CLIENT_ID      = azurerm_user_assigned_identity.backend.client_id
     STORAGE_ACCOUNT_NAME = module.storage.storage_account_name
     BLOB_CONTAINER_NAME  = module.storage.container_name
-    KEY_VAULT_URL        = azurerm_key_vault.main.vault_uri
+    KEY_VAULT_URL        = module.key_vault.vault_uri
     WEBSITES_PORT        = "8000"
 
     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string

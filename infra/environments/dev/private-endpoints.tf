@@ -84,7 +84,7 @@ resource "azurerm_private_endpoint" "key_vault" {
 
   private_service_connection {
     name                           = "psc-key-vault"
-    private_connection_resource_id = azurerm_key_vault.main.id
+    private_connection_resource_id = module.key_vault.id
     subresource_names              = ["vault"]
     is_manual_connection           = false
   }

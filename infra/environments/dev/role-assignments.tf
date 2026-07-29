@@ -17,7 +17,7 @@ resource "azurerm_role_assignment" "backend_blob_data" {
 }
 
 resource "azurerm_role_assignment" "backend_key_vault" {
-  scope                = azurerm_key_vault.main.id
+  scope                = module.key_vault.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.backend.principal_id
 }

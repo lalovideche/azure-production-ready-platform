@@ -45,3 +45,7 @@ moved {
   from = azurerm_storage_container.messages
   to   = module.storage.azurerm_storage_container.messages
 }
+moved {
+  from = azurerm_key_vault.main
+  to   = module.key_vault.azurerm_key_vault.main
+}
