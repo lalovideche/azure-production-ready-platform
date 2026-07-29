@@ -39,6 +39,11 @@ resource "azurerm_monitor_diagnostic_setting" "frontend" {
   enabled_metric {
     category = "AllMetrics"
   }
+  lifecycle {
+    ignore_changes = [
+      log_analytics_destination_type
+    ]
+  }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "backend" {
@@ -58,6 +63,11 @@ resource "azurerm_monitor_diagnostic_setting" "backend" {
 
   enabled_metric {
     category = "AllMetrics"
+  }
+  lifecycle {
+    ignore_changes = [
+      log_analytics_destination_type
+    ]
   }
 }
 
