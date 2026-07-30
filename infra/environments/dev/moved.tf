@@ -130,3 +130,22 @@ moved {
   from = azurerm_private_endpoint.key_vault
   to   = module.private_connectivity.azurerm_private_endpoint.key_vault
 }
+moved {
+  from = azurerm_role_assignment.frontend_acr_pull
+  to   = module.rbac.azurerm_role_assignment.frontend_acr_pull
+}
+
+moved {
+  from = azurerm_role_assignment.backend_acr_pull
+  to   = module.rbac.azurerm_role_assignment.backend_acr_pull
+}
+
+moved {
+  from = azurerm_role_assignment.backend_blob_data
+  to   = module.rbac.azurerm_role_assignment.backend_blob_data
+}
+
+moved {
+  from = azurerm_role_assignment.backend_key_vault
+  to   = module.rbac.azurerm_role_assignment.backend_key_vault
+}
