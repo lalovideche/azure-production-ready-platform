@@ -37,7 +37,7 @@ module "application" {
     BACKEND_URL   = "https://${local.backend_name}.azurewebsites.net"
     WEBSITES_PORT = "8000"
 
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+    APPLICATIONINSIGHTS_CONNECTION_STRING = module.monitoring.application_insights_connection_string
     OTEL_SERVICE_NAME                     = "azrp-frontend"
   }
 
@@ -48,7 +48,7 @@ module "application" {
     KEY_VAULT_URL        = module.key_vault.vault_uri
     WEBSITES_PORT        = "8000"
 
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+    APPLICATIONINSIGHTS_CONNECTION_STRING = module.monitoring.application_insights_connection_string
     OTEL_SERVICE_NAME                     = "azrp-backend"
   }
 

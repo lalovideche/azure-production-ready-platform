@@ -72,3 +72,17 @@ moved {
   from = azurerm_linux_web_app.backend
   to   = module.application.azurerm_linux_web_app.backend
 }
+moved {
+  from = azurerm_log_analytics_workspace.main
+  to   = module.monitoring.azurerm_log_analytics_workspace.main
+}
+
+moved {
+  from = azurerm_application_insights.main
+  to   = module.monitoring.azurerm_application_insights.main
+}
+
+moved {
+  from = azurerm_monitor_action_group.email
+  to   = module.monitoring.azurerm_monitor_action_group.email
+}
