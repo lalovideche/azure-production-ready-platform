@@ -8,9 +8,13 @@
 # Saved Terraform plans
 *.tfplan
 
-# Real variable values
-terraform.tfvars
-*.auto.tfvars
+# Real Terraform variable values
+*.tfvars
+*.tfvars.json
+
+# Safe example files can be versioned
+!*.tfvars.example
+!*.tfvars.json.example
 
 # Real backend configuration
 backend.*.hcl
@@ -29,3 +33,11 @@ crash.*.log
 # Python generated files
 __pycache__/
 *.pyc
+
+# Local Azure CLI and Docker credentials
+.azure/
+.docker/
+
+# Certificate and private-key bundles
+*.pfx
+*.p12
