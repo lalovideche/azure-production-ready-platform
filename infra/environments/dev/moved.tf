@@ -86,3 +86,47 @@ moved {
   from = azurerm_monitor_action_group.email
   to   = module.monitoring.azurerm_monitor_action_group.email
 }
+moved {
+  from = azurerm_private_dns_zone.webapps
+  to   = module.private_connectivity.azurerm_private_dns_zone.webapps
+}
+
+moved {
+  from = azurerm_private_dns_zone.blob
+  to   = module.private_connectivity.azurerm_private_dns_zone.blob
+}
+
+moved {
+  from = azurerm_private_dns_zone.key_vault
+  to   = module.private_connectivity.azurerm_private_dns_zone.key_vault
+}
+
+moved {
+  from = azurerm_private_dns_zone_virtual_network_link.webapps
+  to   = module.private_connectivity.azurerm_private_dns_zone_virtual_network_link.webapps
+}
+
+moved {
+  from = azurerm_private_dns_zone_virtual_network_link.blob
+  to   = module.private_connectivity.azurerm_private_dns_zone_virtual_network_link.blob
+}
+
+moved {
+  from = azurerm_private_dns_zone_virtual_network_link.key_vault
+  to   = module.private_connectivity.azurerm_private_dns_zone_virtual_network_link.key_vault
+}
+
+moved {
+  from = azurerm_private_endpoint.backend
+  to   = module.private_connectivity.azurerm_private_endpoint.backend
+}
+
+moved {
+  from = azurerm_private_endpoint.blob
+  to   = module.private_connectivity.azurerm_private_endpoint.blob
+}
+
+moved {
+  from = azurerm_private_endpoint.key_vault
+  to   = module.private_connectivity.azurerm_private_endpoint.key_vault
+}
