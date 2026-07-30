@@ -101,7 +101,7 @@ jobs:
         env:
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           TF_VAR_name_suffix: ${{ vars.NAME_SUFFIX }}
-          TF_VAR_alert_email: ${{ vars.ALERT_EMAIL }}
+          TF_VAR_alert_email: ${{ secrets.ALERT_EMAIL }}
           TF_VAR_frontend_image_tag: ${{ github.sha }}
           TF_VAR_backend_image_tag: ${{ github.sha }}
         run: |

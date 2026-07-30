@@ -41,4 +41,5 @@ variable "backend_image_tag" {
 variable "alert_email" {
   description = "Email that receives Azure Monitor alerts."
   type        = string
+  sensitive   = true
 }
